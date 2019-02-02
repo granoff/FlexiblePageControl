@@ -36,6 +36,7 @@ public class FlexiblePageControl: UIView {
     // default config
     
     private var config = Config()
+    private var displayCount: Int = 0
 
     public func setConfig(_ config: Config) {
 
@@ -59,9 +60,10 @@ public class FlexiblePageControl: UIView {
     
     public var numberOfPages: Int = 0 {
         didSet {
-            scrollView.isHidden = (numberOfPages <= 1 && hidesForSinglePage)
-            config.displayCount = min(config.displayCount, numberOfPages)
+            isHidden = (numberOfPages <= 1 && hidesForSinglePage)
+            displayCount = min(config.displayCount, numberOfPages)
             update(currentPage: currentPage, config: config)
+            updateViewSize()
         }
     }
 
@@ -81,7 +83,7 @@ public class FlexiblePageControl: UIView {
 
     public var hidesForSinglePage: Bool = false {
         didSet {
-            scrollView.isHidden = (numberOfPages <= 1 && hidesForSinglePage)
+            isHidden = (numberOfPages <= 1 && hidesForSinglePage)
         }
     }
 
@@ -116,7 +118,7 @@ public class FlexiblePageControl: UIView {
     }
 
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: itemSize * CGFloat(config.displayCount), height: itemSize)
+        return CGSize(width: itemSize * CGFloat(displayCount), height: itemSize)
     }
 
     public func setProgress(contentOffsetX: CGFloat, pageWidth: CGFloat) {
@@ -152,9 +154,9 @@ public class FlexiblePageControl: UIView {
 
     private func update(currentPage: Int, config: Config) {
 
-        if currentPage < config.displayCount {
+        if currentPage < displayCount {
 
-            items = (-2..<(config.displayCount + 2))
+            items = (-2..<(displayCount + 2))
                 .map { ItemView(itemSize: itemSize, dotSize: config.dotSize, index: $0) }
         }
         else {
@@ -175,11 +177,11 @@ public class FlexiblePageControl: UIView {
 
         NSLayoutConstraint.activate([scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
                                      scrollView.heightAnchor.constraint(equalToConstant: itemSize),
-                                     scrollView.widthAnchor.constraint(equalToConstant: itemSize * CGFloat(config.displayCount))
+                                     scrollView.widthAnchor.constraint(equalToConstant: itemSize * CGFloat(displayCount))
                                      ])
 
         
-        if config.displayCount < numberOfPages {
+        if displayCount < numberOfPages {
             scrollView.contentInset = .init(top: 0, left: itemSize * 2, bottom: 0, right: itemSize * 2)
         }
         else {
@@ -193,7 +195,7 @@ public class FlexiblePageControl: UIView {
 
         updateDotColor(currentPage: currentPage)
 
-        if numberOfPages > config.displayCount {
+        if numberOfPages > displayCount {
             updateDotPosition(currentPage: currentPage, animated: animated)
             updateDotSize(currentPage: currentPage, animated: animated)
         }
