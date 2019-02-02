@@ -28,6 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D8355632205F842003C7EA6 /* FlexiblePageControl.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FlexiblePageControl.podspec; sourceTree = "<group>"; };
+		4D8355642205F842003C7EA6 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		4D8355652205F842003C7EA6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D42F44961EE7C8FF0097C199 /* ViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ViewController.storyboard; sourceTree = "<group>"; };
 		D44B61961E98B7AE00D38950 /* image01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = image01.jpg; path = resouce/image01.jpg; sourceTree = "<group>"; };
 		D44B61971E98B7AE00D38950 /* image02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = image02.jpg; path = resouce/image02.jpg; sourceTree = "<group>"; };
@@ -69,6 +72,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D8355622205F81A003C7EA6 /* Pod Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4D8355632205F842003C7EA6 /* FlexiblePageControl.podspec */,
+				4D8355642205F842003C7EA6 /* LICENSE */,
+				4D8355652205F842003C7EA6 /* README.md */,
+			);
+			name = "Pod Resources";
+			sourceTree = "<group>";
+		};
 		D44B61951E98B78000D38950 /* resouce */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +102,7 @@
 		D4DC6C311E92B8FD0022F452 = {
 			isa = PBXGroup;
 			children = (
+				4D8355622205F81A003C7EA6 /* Pod Resources */,
 				D4DC6C3D1E92B8FD0022F452 /* FlexiblePageControl */,
 				D4DC6C4B1E92B9310022F452 /* Demo */,
 				D4DC6C3C1E92B8FD0022F452 /* Products */,
@@ -194,7 +208,7 @@
 					};
 					D4DC6C491E92B9300022F452 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 64T4PJ8WCZ;
+						DevelopmentTeam = UH5GSL36AW;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -322,7 +336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -369,7 +383,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -426,7 +440,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 64T4PJ8WCZ;
+				DEVELOPMENT_TEAM = UH5GSL36AW;
 				INFOPLIST_FILE = Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shimaApps.Demo;
@@ -440,7 +454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 64T4PJ8WCZ;
+				DEVELOPMENT_TEAM = UH5GSL36AW;
 				INFOPLIST_FILE = Demo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shimaApps.Demo;

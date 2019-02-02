@@ -116,18 +116,15 @@ public class FlexiblePageControl: UIView {
     }
 
     public override var intrinsicContentSize: CGSize {
-
         return CGSize(width: itemSize * CGFloat(config.displayCount), height: itemSize)
     }
 
     public func setProgress(contentOffsetX: CGFloat, pageWidth: CGFloat) {
-
         let currentPage = Int(round(contentOffsetX / pageWidth))
         setCurrentPage(at: currentPage, animated: true)
     }
 
     public func updateViewSize() {
-
         self.bounds.size = intrinsicContentSize
     }
 
@@ -136,7 +133,6 @@ public class FlexiblePageControl: UIView {
     private let scrollView = UIScrollView()
 
     private var itemSize: CGFloat {
-
         return config.dotSize + config.dotSpace
     }
     
@@ -149,6 +145,7 @@ public class FlexiblePageControl: UIView {
         scrollView.backgroundColor = .clear
         scrollView.isUserInteractionEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(scrollView)
     }
@@ -171,15 +168,17 @@ public class FlexiblePageControl: UIView {
         }
 
         scrollView.contentSize = .init(width: itemSize * CGFloat(numberOfPages), height: itemSize)
+        scrollView.constraints.forEach { removeConstraint($0) }
 
         scrollView.subviews.forEach { $0.removeFromSuperview() }
         items.forEach { scrollView.addSubview($0) }
 
-        let size: CGSize = .init(width: itemSize * CGFloat(config.displayCount), height: itemSize)
-        let frame: CGRect = .init(origin: .zero, size: size)
+        NSLayoutConstraint.activate([scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                                     scrollView.heightAnchor.constraint(equalToConstant: itemSize),
+                                     scrollView.widthAnchor.constraint(equalToConstant: itemSize * CGFloat(config.displayCount))
+                                     ])
 
-        scrollView.frame = frame
-
+        
         if config.displayCount < numberOfPages {
             scrollView.contentInset = .init(top: 0, left: itemSize * 2, bottom: 0, right: itemSize * 2)
         }

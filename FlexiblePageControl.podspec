@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FlexiblePageControl"
-  s.version      = "1.0.7"
+  s.version      = "1.0.8"
   s.summary      = "FlexiblePageControl is flexible PageControl."
 
   s.description  = <<-DESC
@@ -24,9 +24,9 @@ This Framework is flexible PageControl like Instagram.
 
   s.homepage = "https://github.com/shima11/FlexiblePageControl"
 
-  s.author             = { "shima" => "shima.jin@icloud.com" }
+  s.author             = { "shima" => "shima.jin@icloud.com", "granoff" => "mark@granoff.net" }
 
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "9.0"
 
   s.source = { :git => "https://github.com/shima11/FlexiblePageControl.git", :tag => "#{s.version}"}
 
