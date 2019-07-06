@@ -36,11 +36,12 @@ public class FlexiblePageControl: UIView {
     // default config
     
     private var config = Config()
-    private var displayCount: Int = 0
 
     public func setConfig(_ config: Config) {
 
         self.config = config
+        
+        invalidateIntrinsicContentSize()
 
         update(currentPage: currentPage, config: config)
     }
@@ -60,20 +61,19 @@ public class FlexiblePageControl: UIView {
     
     public var numberOfPages: Int = 0 {
         didSet {
-            isHidden = (numberOfPages <= 1 && hidesForSinglePage)
+            scrollView.isHidden = (numberOfPages <= 1 && hidesForSinglePage)
             displayCount = min(config.displayCount, numberOfPages)
             update(currentPage: currentPage, config: config)
-            updateViewSize()
         }
     }
 
-    public var pageIndicatorTintColor: UIColor = UIColor(red:0.86, green:0.86, blue:0.86, alpha:1.00) {
+    public var pageIndicatorTintColor: UIColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.00) {
         didSet {
             updateDotColor(currentPage: currentPage)
         }
     }
 
-    public var currentPageIndicatorTintColor: UIColor = UIColor(red:0.32, green:0.59, blue:0.91, alpha:1.00) {
+    public var currentPageIndicatorTintColor: UIColor = UIColor(red: 0.32, green: 0.59, blue: 0.91, alpha: 1.00) {
         didSet {
             updateDotColor(currentPage: currentPage)
         }
@@ -83,7 +83,7 @@ public class FlexiblePageControl: UIView {
 
     public var hidesForSinglePage: Bool = false {
         didSet {
-            isHidden = (numberOfPages <= 1 && hidesForSinglePage)
+            scrollView.isHidden = (numberOfPages <= 1 && hidesForSinglePage)
         }
     }
 
@@ -114,19 +114,22 @@ public class FlexiblePageControl: UIView {
 
         super.layoutSubviews()
         
-        scrollView.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+        scrollView.center = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
     }
 
     public override var intrinsicContentSize: CGSize {
+
         return CGSize(width: itemSize * CGFloat(displayCount), height: itemSize)
     }
 
     public func setProgress(contentOffsetX: CGFloat, pageWidth: CGFloat) {
+
         let currentPage = Int(round(contentOffsetX / pageWidth))
         setCurrentPage(at: currentPage, animated: true)
     }
 
     public func updateViewSize() {
+
         self.bounds.size = intrinsicContentSize
     }
 
@@ -135,10 +138,17 @@ public class FlexiblePageControl: UIView {
     private let scrollView = UIScrollView()
 
     private var itemSize: CGFloat {
+
         return config.dotSize + config.dotSpace
     }
     
     private var items: [ItemView] = []
+
+    private var displayCount: Int = 0 {
+        didSet {
+            invalidateIntrinsicContentSize()
+        }
+    }
 
     private func setup() {
 
@@ -154,18 +164,20 @@ public class FlexiblePageControl: UIView {
 
     private func update(currentPage: Int, config: Config) {
 
+        let itemConfig = ItemView.ItemConfig(dotSize: config.dotSize, itemSize: itemSize, smallDotSizeRatio: config.smallDotSizeRatio, mediumDotSizeRatio: config.mediumDotSizeRatio)
+
         if currentPage < displayCount {
 
             items = (-2..<(displayCount + 2))
-                .map { ItemView(itemSize: itemSize, dotSize: config.dotSize, index: $0) }
+                .map { ItemView(config: itemConfig, index: $0) }
         }
         else {
 
             guard let firstItem = items.first else { return }
             guard let lastItem = items.last else { return }
             items = (firstItem.index...lastItem.index)
-                .map { ItemView(itemSize: itemSize, dotSize: config.dotSize, index: $0) }
-//            items = ((currentPage - config.displayCount - 2)...(currentPage + 2))
+                .map { ItemView(config: itemConfig, index: $0) }
+//            items = ((currentPage - displayCount - 2)...(currentPage + 2))
 //                .map { ItemView(itemSize: itemSize, dotSize: config.dotSize, index: $0) }
         }
 
@@ -215,20 +227,20 @@ public class FlexiblePageControl: UIView {
 
         if currentPage == 0 {
             let x = -scrollView.contentInset.left
-            moveScrollViewView(x: x, duration: duration)
+            moveScrollView(x: x, duration: duration)
         }
         else if currentPage == numberOfPages - 1 {
             let x = scrollView.contentSize.width - scrollView.bounds.width + scrollView.contentInset.right
-            moveScrollViewView(x: x, duration: duration)
+            moveScrollView(x: x, duration: duration)
         }
         else if CGFloat(currentPage) * itemSize <= scrollView.contentOffset.x + itemSize {
             let x = scrollView.contentOffset.x - itemSize
-            moveScrollViewView(x: x, duration: duration)
+            moveScrollView(x: x, duration: duration)
         }
         else if CGFloat(currentPage) * itemSize + itemSize >=
             scrollView.contentOffset.x + scrollView.bounds.width - itemSize {
             let x = scrollView.contentOffset.x + itemSize
-            moveScrollViewView(x: x, duration: duration)
+            moveScrollView(x: x, duration: duration)
         }
     }
 
@@ -271,7 +283,7 @@ public class FlexiblePageControl: UIView {
         }
     }
 
-    private func moveScrollViewView(x: CGFloat, duration: TimeInterval) {
+    private func moveScrollView(x: CGFloat, duration: TimeInterval) {
 
         let direction = behaviorDirection(x: x)
         reusedView(direction: direction)
@@ -281,8 +293,9 @@ public class FlexiblePageControl: UIView {
     }
 
     private enum Direction {
-
-        case left, right, stay
+        case left
+        case right
+        case stay
     }
 
     private func behaviorDirection(x: CGFloat) -> Direction {
@@ -327,16 +340,19 @@ public class FlexiblePageControl: UIView {
 
 private class ItemView: UIView {
 
+    struct ItemConfig {
+        public var dotSize: CGFloat
+        public var itemSize: CGFloat
+        public var smallDotSizeRatio: CGFloat
+        public var mediumDotSizeRatio: CGFloat
+    }
+
     enum State {
         case None
         case Small
         case Medium
         case Normal
     }
-
-    static var mediumSizeRatio: CGFloat = 0.7
-
-    static var smallSizeRatio: CGFloat = 0.5
 
     var index: Int
 
@@ -354,10 +370,12 @@ private class ItemView: UIView {
 
     var animateDuration: TimeInterval = 0.3
 
-    init(itemSize: CGFloat, dotSize: CGFloat, index: Int) {
+    init(config: ItemConfig, index: Int) {
         
-        self.itemSize = itemSize
-        self.dotSize = dotSize
+        self.itemSize = config.itemSize
+        self.dotSize = config.dotSize
+        self.mediumSizeRatio = config.mediumDotSizeRatio
+        self.smallSizeRatio = config.smallDotSizeRatio
         self.index = index
         
         let x = itemSize * CGFloat(index)
@@ -388,7 +406,11 @@ private class ItemView: UIView {
     private let itemSize: CGFloat
 
     private let dotSize: CGFloat
-    
+
+    private let mediumSizeRatio: CGFloat
+
+    private let smallSizeRatio: CGFloat
+
     private func updateDotSize(state: State) {
         
         var _size: CGSize
@@ -397,19 +419,19 @@ private class ItemView: UIView {
         case .Normal:
             _size = CGSize(width: dotSize, height: dotSize)
         case .Medium:
-            _size = CGSize(width: dotSize * ItemView.mediumSizeRatio, height: dotSize * ItemView.mediumSizeRatio)
+            _size = CGSize(width: dotSize * mediumSizeRatio, height: dotSize * mediumSizeRatio)
         case .Small:
             _size = CGSize(
-                width: dotSize * ItemView.smallSizeRatio,
-                height: dotSize * ItemView.smallSizeRatio
+                width: dotSize * smallSizeRatio,
+                height: dotSize * smallSizeRatio
             )
         case .None:
             _size = CGSize.zero
         }
 
-        dotView.layer.cornerRadius = _size.height / 2.0
 
         UIView.animate(withDuration: animateDuration, animations: { [unowned self] in
+            self.dotView.layer.cornerRadius = _size.height / 2.0
             self.dotView.layer.bounds.size = _size
         })
     }

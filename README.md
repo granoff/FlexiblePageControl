@@ -2,7 +2,7 @@
 A flexible UIPageControl like Instagram.
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/hsylife/SwiftyPickerPopover)
- ![Swift 3.0.x](https://img.shields.io/badge/Swift-3.0.x-orange.svg)
+ ![Swift 4.2.x](https://img.shields.io/badge/Swift-4.2.x-orange.svg)
  [![Support](https://img.shields.io/badge/support-iOS%208%2B%20-blue.svg?style=flat)](https://www.apple.com/nl/ios/)
 
 # OverView
@@ -48,13 +48,14 @@ pageControl.pageIndicatorTintColor = color1
 pageControl.currentPageIndicatorTintColor = color2
 
 // size
-let config = Config(
+let config = FlexiblePageControl.Config(
     displayCount: 7,
     dotSize: 6,
     dotSpace: 4,
     smallDotSizeRatio: 0.5,
     mediumDotSizeRatio: 0.7
 )
+
 pageControl.setConfig(config)
 ````
 
