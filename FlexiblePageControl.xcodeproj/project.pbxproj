@@ -29,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		4D8355632205F842003C7EA6 /* FlexiblePageControl.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = FlexiblePageControl.podspec; sourceTree = "<group>"; };
+		1FAFE6D928DB5971006AD157 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		4D8355642205F842003C7EA6 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4D8355652205F842003C7EA6 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D42F44961EE7C8FF0097C199 /* ViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ViewController.storyboard; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				4D8355622205F81A003C7EA6 /* Pod Resources */,
+				1FAFE6D928DB5971006AD157 /* Package.swift */,
 				D4D2D72622B8675B00B07B10 /* README.md */,
 				D4DC6C3D1E92B8FD0022F452 /* FlexiblePageControl */,
 				D4DC6C4B1E92B9310022F452 /* Demo */,
